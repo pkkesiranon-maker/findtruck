@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฟอร์มฝากโพสงานด่วน</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>ฝากโพสงานด่วน</h2>
+    <form id="jobForm">
+        <div class="form-group">
+            <label for="fullName">1) ชื่อ-นามสกุล:</label>
+            <input type="text" id="fullName" name="fullName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">2) เบอร์โทรศัพท์:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">3) วันที่ขึ้นงาน:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="origin">4) ต้นทาง:</label>
+            <select id="origin" name="origin" required>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label for="destination">5) ปลายทาง:</label>
+            <select id="destination" name="destination" required>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label for="vehicleType">6) ประเภทรถขนส่ง:</label>
+            <input type="text" id="vehicleType" name="vehicleType" required>
+        </div>
+
+        <div class="form-group">
+            <label for="transportType">7) ประเภทการขนส่ง:</label>
+            <select id="transportType" name="transportType" required>
+                <option value="" disabled selected>กรุณาเลือกประเภท</option>
+                <option value="เหมาเที่ยว">เหมาเที่ยว</option>
+                <option value="กระจายสินค้า">กระจายสินค้า</option>
+                <option value="Express">Express</option>
+                <option value="Cross border">Cross border</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="productType">8) ประเภทสินค้า:</label>
+            <input type="text" id="productType" name="productType" required>
+        </div>
+
+        <div class="form-group">
+            <label for="weight">9) น้ำหนักสินค้า:</label>
+            <input type="text" id="weight" name="weight" required>
+        </div>
+
+        <div class="form-group">
+            <label for="details">10) รายละเอียดอื่นๆ:</label>
+            <textarea id="details" name="details" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">11) ราคาค่าขนส่ง:</label>
+            <input type="text" id="price" name="price" required>
+        </div>
+        
+        <button type="submit">ส่งข้อมูล</button>
+    </form>
+</div>
+
+<script>
+    const provinces = [
+        'กรุงเทพมหานคร', 'กระบี่', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร', 'ขอนแก่น', 'จันทบุรี', 'ฉะเชิงเทรา', 'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่', 'ตรัง', 'ตราด', 'ตาก', 'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน', 'บึงกาฬ', 'บุรีรัมย์', 'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี', 'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่', 'ภูเก็ต', 'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน', 'ยโสธร', 'ยะลา', 'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี', 'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย', 'ศรีสะเกษ', 'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์', 'หนองคาย', 'หนองบัวลำภู', 'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี'
+    ];
+
+    const originSelect = document.getElementById('origin');
+    const destinationSelect = document.getElementById('destination');
+
+    function populateProvinces() {
+        let options = '<option value="" disabled selected>เลือกจังหวัด</option>';
+        provinces.forEach(province => {
+            options += `<option value="${province}">${province}</option>`;
+        });
+        originSelect.innerHTML = options;
+        destinationSelect.innerHTML = options;
+    }
+
+    populateProvinces();
+</script>
+
+</body>
+</html>
