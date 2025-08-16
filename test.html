@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App - ฝากโพสงานด่วน</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Use Sarabun font for the entire page */
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        /* Custom focus style for better visibility */
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* blue-500 with 50% opacity */
+            border-color: #3B82F6; /* blue-500 */
+        }
+        /* Style for the loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 24px;
+            height: 24px;
+            animation: spin 2s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+
+    <div class="w-full max-w-3xl bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+        
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">ฝากโพสงานด่วน</h1>
+            <p class="text-gray-500 mt-2">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อบันทึกลงในระบบ</p>
+        </div>
+
+        <form id="jobForm" class="space-y-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 1. ชื่อ นามสกุล -->
+                <div>
+                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="เช่น สมชาย ใจดี" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- 2. เบอร์โทรศัพท์ -->
+                <div>
+                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="0812345678" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- 3. วันที่ขึ้นงาน -->
+                <div>
+                    <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่ขึ้นงาน</label>
+                    <input type="date" id="startDate" name="startDate" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- 6. ประเภทรถขนส่ง -->
+                <div>
+                    <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-1">ประเภทรถขนส่ง</label>
+                    <input type="text" id="vehicleType" name="vehicleType" placeholder="เช่น รถกระบะ 4 ล้อตู้ทึบ, รถ 6 ล้อ" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- 4. ต้นทาง -->
+                <div>
+                    <label for="origin" class="block text-sm font-medium text-gray-700 mb-1">ต้นทาง</label>
+                    <select id="origin" name="origin" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                        <option value="" disabled selected>-- เลือกจังหวัดต้นทาง --</option>
+                    </select>
+                </div>
+
+                <!-- 5. ปลายทาง -->
+                <div>
+                    <label for="destination" class="block text-sm font-medium text-gray-700 mb-1">ปลายทาง</label>
+                    <select id="destination" name="destination" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                        <option value="" disabled selected>-- เลือกจังหวัดปลายทาง --</option>
+                    </select>
+                </div>
+
+                <!-- 7. ประเภทการขนส่ง -->
+                <div>
+                    <label for="transportType" class="block text-sm font-medium text-gray-700 mb-1">ประเภทการขนส่ง</label>
+                    <select id="transportType" name="transportType" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                        <option value="" disabled selected>-- เลือกประเภท --</option>
+                        <option value="เหมาเที่ยว">เหมาเที่ยว</option>
+                        <option value="กระจายสินค้า">กระจายสินค้า</option>
+                        <option value="Express">Express</option>
+                        <option value="Cross border">Cross border</option>
+                    </select>
+                </div>
+
+                <!-- 8. ประเภทสินค้า -->
+                <div>
+                    <label for="productType" class="block text-sm font-medium text-gray-700 mb-1">ประเภทสินค้า</label>
+                    <input type="text" id="productType" name="productType" placeholder="เช่น สินค้าอุปโภคบริโภค, เครื่องจักร" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- 9. น้ำหนักสินค้า -->
+                <div>
+                    <label for="productWeight" class="block text-sm font-medium text-gray-700 mb-1">น้ำหนักสินค้า (กิโลกรัม)</label>
+                    <input type="number" id="productWeight" name="productWeight" min="0" step="0.01" placeholder="เช่น 1500" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+                
+                <!-- 11. ราคาค่าขนส่ง -->
+                <div>
+                    <label for="shippingPrice" class="block text-sm font-medium text-gray-700 mb-1">ราคาค่าขนส่ง (บาท)</label>
+                    <input type="number" id="shippingPrice" name="shippingPrice" min="0" placeholder="เช่น 3000" required class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+            </div>
+
+            <!-- 10. รายละเอียดอื่นๆ -->
+            <div class="col-span-1 md:col-span-2">
+                <label for="otherDetails" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียดอื่นๆ (ถ้ามี)</label>
+                <textarea id="otherDetails" name="otherDetails" rows="4" placeholder="เช่น ต้องการคนช่วยยกของ, รถต้องมี GPS" class="form-input block w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4 text-center">
+                <button id="submitButton" type="submit" class="w-full md:w-auto inline-flex items-center justify-center py-3 px-12 border border-transparent shadow-sm text-lg font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span id="buttonText">ส่งข้อมูล</span>
+                    <span id="buttonLoader" class="hidden"><div class="loader"></div></span>
+                </button>
+            </div>
+            <!-- Status Message -->
+            <div id="statusMessage" class="mt-4 text-center font-medium h-6"></div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const provinces = ["กรุงเทพมหานคร", "กระบี่", "กาญจนบุรี", "กาฬสินธุ์", "กำแพงเพชร", "ขอนแก่น", "จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ชัยนาท", "ชัยภูมิ", "ชุมพร", "เชียงราย", "เชียงใหม่", "ตรัง", "ตราด", "ตาก", "นครนายก", "นครปฐม", "นครพนม", "นครราชสีมา", "นครศรีธรรมราช", "นครสวรรค์", "นนทบุรี", "นราธิวาส", "น่าน", "บึงกาฬ", "บุรีรัมย์", "ปทุมธานี", "ประจวบคีรีขันธ์", "ปราจีนบุรี", "ปัตตานี", "พระนครศรีอยุธยา", "พะเยา", "พังงา", "พัทลุง", "พิจิตร", "พิษณุโลก", "เพชรบุรี", "เพชรบูรณ์", "แพร่", "ภูเก็ต", "มหาสารคาม", "มุกดาหาร", "แม่ฮ่องสอน", "ยโสธร", "ยะลา", "ร้อยเอ็ด", "ระนอง", "ระยอง", "ราชบุรี", "ลพบุรี", "ลำปาง", "ลำพูน", "เลย", "ศรีสะเกษ", "สกลนคร", "สงขลา", "สตูล", "สมุทรปราการ", "สมุทรสงคราม", "สมุทรสาคร", "สระแก้ว", "สระบุรี", "สิงห์บุรี", "สุโขทัย", "สุพรรณบุรี", "สุราษฎร์ธานี", "สุรินทร์", "หนองคาย", "หนองบัวลำภู", "อ่างทอง", "อำนาจเจริญ", "อุดรธานี", "อุตรดิตถ์", "อุทัยธานี", "อุบลราชธานี"];
+            const originSelect = document.getElementById('origin');
+            const destinationSelect = document.getElementById('destination');
+            function populateSelect(selectElement) {
+                provinces.forEach(province => {
+                    const option = document.createElement('option');
+                    option.value = province;
+                    option.textContent = province;
+                    selectElement.appendChild(option);
+                });
+            }
+            populateSelect(originSelect);
+            populateSelect(destinationSelect);
+
+            const form = document.getElementById('jobForm');
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('buttonText');
+            const buttonLoader = document.getElementById('buttonLoader');
+            const statusMessage = document.getElementById('statusMessage');
+
+            // #############################################################################
+            // ###                                                                       ###
+            // ###  สำคัญ: นำ URL ของเว็บแอปที่คุณคัดลอกมา วางแทนที่ข้อความข้างล่างนี้     ###
+            // ###                                                                       ###
+            // #############################################################################
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw57Mj7QG4m30hK5vLRHDdGpR1uICs_ucJeNQgLHWvoDZKQm7em_2LByjRhUegVJ7PGBQ/exec';
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+                if (SCRIPT_URL === '!!! วาง URL ของคุณที่นี่ !!!') {
+                    statusMessage.textContent = 'กรุณาตั้งค่า SCRIPT_URL ในโค้ดก่อนใช้งาน';
+                    statusMessage.className = 'mt-4 text-center font-medium text-red-600';
+                    return;
+                }
+
+                submitButton.disabled = true;
+                buttonText.classList.add('hidden');
+                buttonLoader.classList.remove('hidden');
+                statusMessage.textContent = 'กำลังส่งข้อมูล...';
+                statusMessage.className = 'mt-4 text-center font-medium text-blue-600';
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                    redirect: 'follow'
+                })
+                .then(response => {
+                    statusMessage.textContent = 'ส่งข้อมูลเรียบร้อยแล้ว!';
+                    statusMessage.className = 'mt-4 text-center font-medium text-green-600';
+                    form.reset(); 
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    statusMessage.textContent = 'เกิดข้อผิดพลาด! กรุณาลองใหม่อีกครั้ง';
+                    statusMessage.className = 'mt-4 text-center font-medium text-red-600';
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        submitButton.disabled = false;
+                        buttonText.classList.remove('hidden');
+                        buttonLoader.classList.add('hidden');
+                    }, 2000); 
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
